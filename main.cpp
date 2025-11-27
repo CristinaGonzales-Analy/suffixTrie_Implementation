@@ -133,9 +133,7 @@ vector<string> autocomplete(TrieNode* root, const string &prefix) {
 }
 
 
-void findPrefixNodes(TrieNode* node, const string &prefix, int depth,
-                     vector<pair<TrieNode*, string>>& matches,
-                     string current) 
+void findPrefixNodes(TrieNode* node, const string &prefix, int depth, vector<pair<TrieNode*, string>>& matches, string current) 
 {
     if (!node) return;
 
@@ -188,10 +186,11 @@ int main() {
     if (search(root, "ana"))
         cout << "found" << endl;
     else
-        cout << "not found" << endl;
+        cout << "not found" << endl << endl;
 
     TrieNode* root2 = new TrieNode();
 
+    cout <<"Autocomplete implementation: " << endl;    
     string word;
     cout << "Enter a word: ";
     cin >> word;
@@ -215,3 +214,5 @@ int main() {
 
     return 0;
 } }
+
+
