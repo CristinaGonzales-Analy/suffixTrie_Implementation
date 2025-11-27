@@ -165,5 +165,28 @@ int main() {
     else
         cout << "not found" << endl;
 
+    TrieNode* root2 = new TrieNode();
+
+    string word;
+    cout << "Enter a word: ";
+    cin >> word;
+
+    buildSuffixTrie(root2, word);
+
+    string prefix;
+    cout << "Enter a prefix to autocomplete: ";
+    cin >> prefix;
+
+    vector<string> suggestions = autocomplete(root2, prefix);
+
+    if (suggestions.empty()) {
+        cout << "No autocomplete suggestions found." << endl;
+    } else {
+        cout << "\nAutocomplete results:\n";
+        for (int i = 0; i < suggestions.size(); i++) {
+            cout << suggestions[i] << endl;
+        }
+
+
     return 0;
-}
+} }
