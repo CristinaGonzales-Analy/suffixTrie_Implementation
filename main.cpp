@@ -117,23 +117,48 @@ void collectWords(TrieNode* node, string current, vector<string>& results) {
 }
 
 vector<string> autocomplete(TrieNode* root, const string &prefix) {
-    TrieNode* node = root;
+    vector<pair<TrieNode*, string>> matches;
+    vector<string> results;
 
-    size_t i = 0;
-    while (i < prefix.length()) {
-        int index = charToIndex(prefix[i]);
-        if (!node->children[index])
-            return {};
-        node = node->children[index];
-        i++;
+    findPrefixNodes(root, prefix, 0, matches, "");
+
+    for (auto &p : matches) {
+        TrieNode* node = p.first;
+        string start = p.second;
+
+        collectWords(node, start, results);
     }
 
-    vector<string> results;
-    collectWords(node, prefix, results);
     return results;
 }
 
 
+void findPrefixNodes(TrieNode* node, const string &prefix, int depth,
+                     vector<pair<TrieNode*, string>>& matches,
+                     string current) 
+{
+    if (!node) return;
+
+    if (depth < prefix.size()) {
+        int index = charToIndex(prefix[depth]);
+        if (node->children[index]) {
+            findPrefixNodes(node->children[index], prefix, depth + 1,
+                            matches, current + prefix[depth]);
+        }
+    } else {
+        matches.push_back({node, current});
+    }
+
+    if (depth == 0) {
+        for (int i = 0; i < ALPHABET_SIZE - 1; i++) {
+            if (node->children[i]) {
+                char c = 'a' + i;
+                findPrefixNodes(node->children[i], prefix, 0,
+                                matches, current + c);
+            }
+        }
+    }
+}
 
 int main() {
     string text = "banana";
