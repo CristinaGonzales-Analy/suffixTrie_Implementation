@@ -100,6 +100,23 @@ void deleteSuffix(TrieNode* root, const string &word) {
     deleteHelper(root, word, 0);
 }
 
+void collectWords(TrieNode* node, string current, vector<string>& results) {
+    if (!node) return;
+
+    int endIndex = charToIndex('$');
+    if (node->children[endIndex] && node->children[endIndex]->isEndOfWord) {
+        results.push_back(current);
+    }
+
+    for (int i = 0; i < ALPHABET_SIZE - 1; i++) {
+        if (node->children[i]) {
+            char c = 'a' + i;
+            collectWords(node->children[i], current + c, results);
+        }
+    }
+}
+
+
 int main() {
     string text = "banana";
     TrieNode* root = new TrieNode();
