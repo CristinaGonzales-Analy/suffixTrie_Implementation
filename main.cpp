@@ -116,6 +116,24 @@ void collectWords(TrieNode* node, string current, vector<string>& results) {
     }
 }
 
+vector<string> autocomplete(TrieNode* root, const string &prefix) {
+    TrieNode* node = root;
+
+    size_t i = 0;
+    while (i < prefix.length()) {
+        int index = charToIndex(prefix[i]);
+        if (!node->children[index])
+            return {};
+        node = node->children[index];
+        i++;
+    }
+
+    vector<string> results;
+    collectWords(node, prefix, results);
+    return results;
+}
+
+
 
 int main() {
     string text = "banana";
